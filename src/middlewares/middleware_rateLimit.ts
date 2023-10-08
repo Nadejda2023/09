@@ -62,10 +62,10 @@ const connections: rateLimitDBModel[] = []
      const count = await rateLimitCollection.countDocuments({
         IP: IP,
         URL: URL,
-        date: { $gte: new Date(+date - interval) },
+        date: { $eq: new Date(+date - interval) },
      });
 
-     if (count  >= maxRequests) {
+     if (count + 1 > maxRequests) {
         return res.sendStatus(429); // Отправка статуса "Слишком много запросов" (429), если лимит превышен
      }
      await rateLimitCollection.insertOne({ IP: IP, URL: URL, date: date });
