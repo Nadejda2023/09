@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { rateLimitCollection } from "../db/db";
 import { rateLimitDBModel } from '../models/rateLimitModels';
 
-const maxRequests = 4;
+const maxRequests = 5;
 const interval = 10 * 1000;
 const connections: rateLimitDBModel[] = []
 
