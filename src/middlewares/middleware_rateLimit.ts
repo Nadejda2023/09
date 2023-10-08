@@ -65,7 +65,7 @@ const connections: rateLimitDBModel[] = []
         date: { $gte: new Date(+currentDate - interval) },
      });
 
-     if (count > maxRequests) {
+     if (count + 1 > maxRequests) {
         return res.sendStatus(429); // Отправка статуса "Слишком много запросов" (429), если лимит превышен
      }
 
