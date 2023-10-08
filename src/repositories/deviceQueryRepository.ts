@@ -33,13 +33,22 @@ export const deviceQueryRepository = {
       },
       async  getDeviceByUserId(userId: string, deviceId: string): Promise<DeviceDbModel | null> {
         try {
-          const device = await deviceCollection.findOne({ userId, deviceId });
+          const device = await deviceCollection.findOne({ userId, deviceId }, {projection: {_id: 0, userId: 0}});
           return device
         } catch (error) {
           console.error('Error getting device by user ID:', error);
           return null
         }
       },
+      async  getAllDeviceByUserId(userId: string,): Promise<DeviceDbModel[]> {
+        try {
+          const device = await deviceCollection.find({ userId }, {projection: {_id: 0, userId: 0}}).toArray();
+          return device
+        } catch (error) {
+          console.error('Error getting device by user ID:', error);
+          return []
+        }
+    },
       async deleteDeviceId(deviceId: string): Promise<boolean> {
         try {
           const result = await deviceCollection.deleteOne({ deviceId });

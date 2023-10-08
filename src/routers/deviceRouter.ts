@@ -42,7 +42,7 @@ async (req: Request, res: Response) => {
         }
 
 
-    const result = await deviceQueryRepository.getDeviceByUserId(isValid.userId, device.deviceId)
+    const result = await deviceQueryRepository.getAllDeviceByUserId(isValid.userId)
     console.log(result)
     if(result) {
         res.status(200).send(result)
