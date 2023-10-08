@@ -73,8 +73,11 @@ async (req: Request, res: Response) => {
 deviceRouter.delete ('/devices/:deviceId',
 async (req: Request, res: Response) => {
     const refreshToken = req.cookies.refreshToken;
-    const deviceId = req.cookies.deviceId;
+    const deviceId = req.params.deviceId;
     const isValid = await authService.validateRefreshToken(refreshToken);
+    if (!isValid || !isValid.userId || !isValid.deviceId) {
+        return res.status(401).json({ message: 'Unauthorized ' });
+        }
     
       const user = await authService.findUserByID(isValid.userId);
     
@@ -82,15 +85,17 @@ async (req: Request, res: Response) => {
         return res.status(401).json({ message: 'User not found' });
       }
 
-    const deviceIdByUser = await deviceQueryRepository.getDeviceByUserId(isValid.userId, deviceId)
-    if (!deviceIdByUser) {
+    const device = await deviceQueryRepository.findDeviceById(deviceId)//
+    if (!device) {
+        return res.sendStatus(404);
+      }
+      if (device.userId !== isValid.userId ) {
         return res.sendStatus(403);
       }
-    const resultDeviceId = await deviceQueryRepository.deleteDeviceId( deviceId)
-    if(resultDeviceId) {
-        res.sendStatus(204)  
-    } else {
-        res.sendStatus(204)  
-    }
+   await deviceQueryRepository.deleteDeviceId( deviceId)
+
+     res.sendStatus(204)  
+   
+    
      
 })
