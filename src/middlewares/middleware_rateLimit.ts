@@ -7,7 +7,7 @@ const interval = 10 * 1000;
 const connections: rateLimitDBModel[] = []
 
 // Rate limit middleware
-export async function customRateLimit(req: Request, res: Response, next: NextFunction) {
+/*export async function customRateLimit(req: Request, res: Response, next: NextFunction) {
     const ip = req.ip;
     const url = req.baseUrl || req.originalUrl;
     const date = new Date()
@@ -26,32 +26,32 @@ export async function customRateLimit(req: Request, res: Response, next: NextFun
   } catch (err) {
     console.error(err);
   }
-}
+}*/
 
-// export async function customRateLimit(req: Request, res: Response, next: NextFunction) {
-//   const ip = req.ip;
-//   const url = req.baseUrl || req.originalUrl;
-//   const date = new Date()
+ export async function customRateLimit(req: Request, res: Response, next: NextFunction) {
+   const ip = req.ip;
+   const url = req.baseUrl || req.originalUrl;
+   const date = new Date()
 
-// try {
+ try {
  
-//   const count = await rateLimitCollection.countDocuments({
-//     IP: ip,
-//     URL,
-//     date: { $gte: new Date(+date - interval) },
-//   });
+   const count = await rateLimitCollection.countDocuments({
+     IP: ip,
+     url,
+     date: { $gte: new Date(+date - interval) },
+   });
 
-//   if (count + 1 > maxRequests) {
-//     return res.sendStatus(429)
-//   }
+   if (count + 1 > maxRequests) {
+     return res.sendStatus(429)
+  }
 
-//   await rateLimitCollection.insertOne({ IP: ip, URL: url, date: date });
+   await rateLimitCollection.insertOne({ IP: ip, URL: url, date: date });
 
-//   next();
-// } catch (err) {
-//   console.error(err);
-// }
-// }
+   next();
+ } catch (err) {
+   console.error(err);
+ }
+ }
 
 
 
