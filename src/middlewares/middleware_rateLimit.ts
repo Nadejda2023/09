@@ -69,8 +69,7 @@ const connections: rateLimitDBModel[] = []
      if (count + 1 > maxRequests) {
         return res.sendStatus(429); // Отправка статуса "Слишком много запросов" (429), если лимит превышен
      }
-     const check = await rateLimitCollection.insertOne({ IP: IP, URL: URL, date: date });
-     console.log(check)
+      await rateLimitCollection.insertOne({ IP: IP, URL: URL, date: date });
      next(); // Перейти к следующему middleware или маршруту
   } catch (err) {
      console.error(err);
