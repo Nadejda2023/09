@@ -3,13 +3,20 @@ import { emailAdapter } from "../adapters/email-adapter";
 import {  usersTwoRepository } from "../repositories/usersRepository";
 import * as bcrypt from 'bcrypt'
 import add from "date-fns/add";
-import { usersCollection } from "../db/db";
+import { deviceCollection, usersCollection } from "../db/db";
 import jwt from 'jsonwebtoken'
-import { AnyAaaaRecord } from "dns";
+
 import { accessTokenSecret1, refreshTokenSecret2 } from "../setting";
+import { jwtService } from "../_application/jwt-service";
+import { UsersModel, UsersModelSw } from "../models/usersModel";
+import {Request, Response, Router} from 'express'
+import { DeviceDbModel } from "../models/deviceModel";
+
+
 
 export const authService = {
     
+
 
     async confirmEmail(code: string): Promise<boolean> {
         let user = await usersTwoRepository.findUserByConfirmationCode(code) 
@@ -26,6 +33,15 @@ export const authService = {
             return result
         
         
+    },
+    async findUserByID(userId: string): Promise<UsersModel | null> {
+      try {
+        const user = await usersCollection.findOne({ id: userId })
+        return user;
+      } catch (error) {
+        console.error('Error finding user by ID:', error);
+        return null
+      }
     },
     async ressendingEmail(email: string): Promise<boolean | null> {
         let user = await usersTwoRepository.findUserByEmail(email)
@@ -52,11 +68,9 @@ export const authService = {
     },
     
 
-    // to do resend email
     async _generateHash(password: string): Promise<string>{ 
         const salt = await bcrypt.genSalt(10)
         const hash = await bcrypt.hash(password, salt)
-        //console.log('hash: ' + hash) 
         return hash
 },
 
@@ -65,13 +79,6 @@ async validateRefreshToken(refreshToken: string): Promise<any>{
     try {
         //ok: {userId}
       const payload = jwt.verify(refreshToken, refreshTokenSecret2);
-  
-    
-      //const invalidatedToken = await tokenCollection.findOne({ token: refreshToken });
-  
-      //if (invalidatedToken) {
-       // return false;
-      //}
       return payload;
     } catch (error) {
       return null; // if token invalid
@@ -79,7 +86,7 @@ async validateRefreshToken(refreshToken: string): Promise<any>{
 
 },
 
-async refreshTokens(userId: string): Promise<{ accessToken: string, newRefreshToken: string }> {
+async refreshTokens(userId: string, deviceId: string): Promise<{ accessToken: string, newRefreshToken: string }> {
     try {
       // Декодируем старый refreshToken
      // const decoded = jwt.verify(oldRefreshToken, refreshTokenSecret);
@@ -88,13 +95,23 @@ async refreshTokens(userId: string): Promise<{ accessToken: string, newRefreshTo
       const accessToken = jwt.sign({ userId }, accessTokenSecret1 , { expiresIn: '10s' });
   
       // Генерируем новый refreshToken
-      const newRefreshToken = jwt.sign({ userId }, refreshTokenSecret2, { expiresIn: '20s' });
+      const newRefreshToken = jwt.sign({ userId , deviceId }, refreshTokenSecret2, { expiresIn: '20s' });
+      
   
       return { accessToken, newRefreshToken };
     } catch (error) {
       throw new Error('Failed to refresh tokens');
     }
+  },
+  async decodeRefreshToken(refreshToken: string) {
+    try {
+      const decoded = jwt.verify(refreshToken, refreshTokenSecret2);
+      return decoded;
+    } catch (error) {
+      return null;
+    }
   }
+  
 }
 
 

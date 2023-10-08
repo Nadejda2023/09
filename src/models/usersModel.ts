@@ -10,6 +10,7 @@
 
       export type UsersModelSw =
       {
+        ip: any
         id: string,
         login: string,
         email: string,
@@ -25,7 +26,7 @@
         passwordSalt: string,
         passwordHash: string,
         emailConfirmation : EmailConfirmationType,
-        refreshTokenBlackList: string[]
+        refreshTokenBlackList: string[] 
 
       }
       export type EmailConfirmationType = { // usera 

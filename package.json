@@ -11,11 +11,13 @@
     "date-fns": "^2.30.0",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
+    "express-rate-limit": "^7.1.0",
     "express-validator": "^7.0.1",
     "jsonwebtoken": "^9.0.1",
     "mongodb": "^5.7.0",
     "ngrok": "^5.0.0-beta.2",
-    "nodemailer": "^6.9.4"
+    "nodemailer": "^6.9.4",
+    "useragent": "^2.3.0"
   },
   "scripts": {
     "watch": "tsc -w",

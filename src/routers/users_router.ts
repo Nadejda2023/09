@@ -8,19 +8,18 @@ import { UsersInputValidation } from "../middlewares/usersvalidation";
 
 
 export const usersRouter = Router({})
-// users 1
+
 usersRouter.get ( '/', 
 async (req: Request, res: Response) : Promise<void> => {
     const pagination = getUsersPagination(req.query)
     const foundAllUsers: PaginatedUser<UsersModel> = await usersQueryRepository.findUsers(pagination)
-res.status(200).send(foundAllUsers)
- })
+    res.status(200).send(foundAllUsers)
+})
 
 usersRouter.post ( '/', 
 authorizationValidation,
 UsersInputValidation,
 async (req: Request, res: Response) => {
-    //const { login, email, password} = req.body
     const newUser = await usersService.createUser(req.body.login, req.body.email, req.body.password)
     console.log(newUser)
     if(!newUser) {
@@ -33,12 +32,11 @@ async (req: Request, res: Response) => {
 
 usersRouter.delete('/:id',
 authorizationValidation,
-//to do errorsvalidation
 async ( req: Request, res: Response) => {
     const isDeleted = await usersService.deleteUserById(req.params.id)
     if (isDeleted) {
         res.sendStatus(204);
-    }else {
+    } else {
         res.sendStatus(404);
     }
     }

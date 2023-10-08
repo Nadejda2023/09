@@ -10,7 +10,8 @@ import { BlogsViewDBModel, BlogsViewModel } from '../models/blogsModel';
 import { UsersModel, UsersModelSw } from '../models/usersModel';
 import { commentDBViewModel, commentViewModel } from '../models/commentModels';
 import { AuthViewModel } from '../models/authModels';
-import { DeviceViewModel } from '../models/deviceModel';
+import { DeviceDbModel, DeviceViewModel } from '../models/deviceModel';
+import { rateLimitDBModel } from '../models/rateLimitModels';
 
 
 
@@ -51,7 +52,8 @@ export const postsCollection = client.db("project").collection<PostViewModel>("p
 export const usersCollection = client.db("project").collection<UsersModel>("users")
 export const commentCollection = client.db("project").collection<commentDBViewModel>("comments")
 export const authCollection = client.db("project").collection<AuthViewModel>("auth")
-export const deviceCollection = client.db("project").collection<DeviceViewModel>("security")
+export const deviceCollection = client.db("project").collection<DeviceDbModel>("security")
+export const rateLimitCollection = client.db("project").collection<rateLimitDBModel>("rateLimit")
 
 export async function runDB() {
   try{

@@ -49,6 +49,9 @@ async findByLoginOrEmail(loginOrEmail: string) {
 async findTokenInBL(userId: string, token: string):Promise<boolean>{
     const userByToken = await usersCollection.findOne({id: userId, refreshTokenBlackList: {$in: [token]}})
     return !!userByToken;
-}
-
+},
+async findUserByToken(refreshToken:string):Promise<UsersModel | null>{
+    const foundedUser = await usersCollection.findOne({refreshToken: refreshToken},{projection: {_id: 0, passwordSalt: 0, passwordHash: 0, emailConfirmation: 0, refreshTokenBlackList: 0}})
+    return foundedUser
+},
 }

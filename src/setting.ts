@@ -12,7 +12,12 @@ import { commentRouter } from "./routers/comment_router";
 import { emailRouter } from "./routers/email-router";
 import cookieParser from "cookie-parser";
 
+
+
 export const app =  express()
+
+app.set('trust proxy', true);
+
 export const settings = {
   MONGO_URI: process.env.mongoURI || "mongodb+srv://fsklever:popova12345@cluster0.su82uvr.mongodb.net/blog-dev?retryWrites=true&w=majority",
   JWT_SECRET: process.env.JWT_SECRET || "123",
@@ -48,7 +53,8 @@ app.use(corsMiddleware)
 const jsonBodyMiddleware = express.json()
 app.use(jsonBodyMiddleware)
 app.use(cookieParser())
-//app.use('trust proxy', true) что и как ?
+
+
 
 
 
