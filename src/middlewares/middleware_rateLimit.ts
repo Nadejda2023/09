@@ -55,14 +55,14 @@ const connections: rateLimitDBModel[] = []
  export async function customRateLimit(req: Request, res: Response, next: NextFunction) {
   const IP = req.ip;
   const URL = req.baseUrl || req.originalUrl;
-  const currentDate = new Date();
+  const date = (new Date());
 
   try {
      // Используйте MongoDB для подсчета документов, удовлетворяющих фильтру
      const count = await rateLimitCollection.countDocuments({
         IP: IP,
         URL: URL,
-        date: { $gte: new Date(+currentDate - interval) },
+        date: { $gte: new Date(+date - interval) },
      });
 
      if (count + 1 > maxRequests) {
