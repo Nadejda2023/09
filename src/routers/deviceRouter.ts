@@ -94,7 +94,7 @@ async (req: Request, res: Response) => {
       }
    await deviceQueryRepository.deleteDeviceId( deviceId)
 
-     res.sendStatus(204)  
+        res.sendStatus(204)  
    
     
      
