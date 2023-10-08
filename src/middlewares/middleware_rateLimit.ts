@@ -29,15 +29,15 @@ const connections: rateLimitDBModel[] = []
 }*/
 
  export async function customRateLimit(req: Request, res: Response, next: NextFunction) {
-   const ip = req.ip;
-   const url = req.baseUrl || req.originalUrl;
+   const IP = req.ip;
+   const URL = req.baseUrl || req.originalUrl;
    const date = new Date()
 
  try {
  
    const count = await rateLimitCollection.countDocuments({
-     IP: ip,
-     url,
+     IP: IP,
+     URL: URL,
      date: { $gte: new Date(+date - interval) },
    });
 
@@ -45,7 +45,7 @@ const connections: rateLimitDBModel[] = []
      return res.sendStatus(429)
   }
 
-   await rateLimitCollection.insertOne({ IP: ip, URL: url, date: date });
+   await rateLimitCollection.insertOne({ IP: IP, URL: URL, date: date });
 
    next();
  } catch (err) {
