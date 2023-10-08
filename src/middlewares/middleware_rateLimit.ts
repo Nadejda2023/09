@@ -7,7 +7,7 @@ const interval = 10 * 1000;
 const connections: rateLimitDBModel[] = []
 
 // Rate limit middleware
-export async function customRateLimit(req: Request, res: Response, next: NextFunction) {
+/*export async function customRateLimit(req: Request, res: Response, next: NextFunction) {
     const IP = req.ip;
     const URL = req.baseUrl || req.originalUrl;
     const date = new Date()
@@ -26,7 +26,7 @@ export async function customRateLimit(req: Request, res: Response, next: NextFun
   } catch (err) {
     console.error(err);
   }
-}
+}*/
 
  /*export async function customRateLimit(req: Request, res: Response, next: NextFunction) {
    const IP = req.ip;
@@ -52,6 +52,29 @@ export async function customRateLimit(req: Request, res: Response, next: NextFun
    console.error(err);
  } 
  } */
+ export async function customRateLimit(req: Request, res: Response, next: NextFunction) {
+  const IP = req.ip;
+  const URL = req.baseUrl || req.originalUrl;
+  const currentDate = new Date();
+
+  try {
+     // Используйте MongoDB для подсчета документов, удовлетворяющих фильтру
+     const count = await rateLimitCollection.countDocuments({
+        IP: IP,
+        URL: URL,
+        date: { $gte: new Date(+currentDate - interval) },
+     });
+
+     if (count > maxRequests) {
+        return res.sendStatus(429); // Отправка статуса "Слишком много запросов" (429), если лимит превышен
+     }
+
+     next(); // Перейти к следующему middleware или маршруту
+  } catch (err) {
+     console.error(err);
+     res.sendStatus(500); // Отправка статуса "Внутренняя ошибка сервера" (500) при ошибке
+  }
+}
 
 
 
