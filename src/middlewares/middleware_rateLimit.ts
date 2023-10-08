@@ -16,7 +16,7 @@ export async function customRateLimit(req: Request, res: Response, next: NextFun
    
     const count = connections.filter(c => c.IP === IP && c.URL === URL && date >= new Date(+date - interval)).length;// =
 
-    if (count + 1 <= maxRequests) { //>
+    if (count + 1 < maxRequests) { //>
       return res.sendStatus(429)
     }
 
