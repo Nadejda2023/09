@@ -10,6 +10,7 @@ import { randomUUID } from 'crypto'
 import { customRateLimit } from '../middlewares/middleware_rateLimit'
 import { DeviceDbModel, DeviceViewModel } from '../models/deviceModel'
 import { ObjectId } from 'mongodb'
+import { deviceQueryRepository } from '../repositories/deviceQueryRepository'
 
 
 export const authRouter = Router({})
@@ -114,8 +115,9 @@ async (req: Request, res: Response) => {
 
  // from 07
  authRouter.post('/registration',
- UsersInputValidation, 
+ 
  customRateLimit,
+ UsersInputValidation, 
  async (req: Request, res: Response) => {
     
     const user = await usersService.createUser(req.body.login, req.body.email, req.body.password)
@@ -137,8 +139,9 @@ async (req: Request, res: Response) => {
  
 
  authRouter.post('/registration-confirmation',
- registrationComfiValidation,
+ 
  customRateLimit,
+ registrationComfiValidation,
  async (req: Request, res: Response) => {
      const result = await authService.confirmEmail(req.body.code)
      if(result) {
@@ -157,8 +160,9 @@ async (req: Request, res: Response) => {
 
 
  authRouter.post('/registration-email-resending',
- emailConfiResValidation,
+ 
  customRateLimit,
+ emailConfiResValidation,
  async (req: Request, res: Response) => {
     const result = await authService.ressendingEmail(req.body.email)
     if(result) {
@@ -207,6 +211,8 @@ async (req: Request, res: Response) => {
             return res.status(401).json({ message: 'Invalid refresh token' });
 
           }
+          
+          await deviceQueryRepository.deleteDeviceId(isValid.deviceId)
 
         
             // Удаляем refreshToken из куки клиента
