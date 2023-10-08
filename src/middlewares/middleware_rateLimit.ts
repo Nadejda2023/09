@@ -55,7 +55,7 @@ const connections: rateLimitDBModel[] = []
  export async function customRateLimit(req: Request, res: Response, next: NextFunction) {
   const IP = req.ip;
   const URL = req.baseUrl || req.originalUrl;
-  const date = (new Date());
+  const date = new Date();
 
   try {
      // Используйте MongoDB для подсчета документов, удовлетворяющих фильтру
@@ -68,7 +68,7 @@ const connections: rateLimitDBModel[] = []
      if (count + 1 > maxRequests) {
         return res.sendStatus(429); // Отправка статуса "Слишком много запросов" (429), если лимит превышен
      }
-
+     await rateLimitCollection.insertOne({ IP: IP, URL: URL, date: date });
      next(); // Перейти к следующему middleware или маршруту
   } catch (err) {
      console.error(err);
