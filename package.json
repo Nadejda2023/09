@@ -22,7 +22,8 @@
   "scripts": {
     "watch": "tsc -w",
     "dev": "nodemon --inspect dist/index.js",
-    "test": "jest --detectOpenHandles --watchAll"
+    "test": "jest --detectOpenHandles --watchAll",
+    "serveo": "ssh -R 80:localhost:3338 serveo.net"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.4",

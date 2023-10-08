@@ -20,7 +20,7 @@ async ( req: Request, res: Response) => {
     const user = await usersService.checkCredentials(req.body.loginOrEmail, req.body.password)
     if (user) {
         const deviceId = randomUUID()
-        const userId = user._id.toString()
+        const userId = user.id
         const accessToken = await jwtService.createJWT(user)
         const refreshToken = await jwtService.createJWTRT(userId, deviceId)
         const lastActiveDate = await jwtService.getLastActiveDate(refreshToken)
