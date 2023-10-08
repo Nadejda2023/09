@@ -7,7 +7,7 @@ const interval = 10 * 1000;
 const connections: rateLimitDBModel[] = []
 
 // Rate limit middleware
-/*export async function customRateLimit(req: Request, res: Response, next: NextFunction) {
+export async function customRateLimit(req: Request, res: Response, next: NextFunction) {
     const ip = req.ip;
     const url = req.baseUrl || req.originalUrl;
     const date = new Date()
@@ -26,9 +26,9 @@ const connections: rateLimitDBModel[] = []
   } catch (err) {
     console.error(err);
   }
-}*/
+}
 
- export async function customRateLimit(req: Request, res: Response, next: NextFunction) {
+ /*export async function customRateLimit(req: Request, res: Response, next: NextFunction) {
    const IP = req.ip;
    const URL = req.baseUrl || req.originalUrl;
    const date = new Date()
@@ -50,8 +50,8 @@ const connections: rateLimitDBModel[] = []
    next();
  } catch (err) {
    console.error(err);
- }
  } 
+ } */
 
 
 

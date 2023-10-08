@@ -115,7 +115,6 @@ async (req: Request, res: Response) => {
 
  // from 07
  authRouter.post('/registration',
- 
  customRateLimit,
  UsersInputValidation, 
  async (req: Request, res: Response) => {
@@ -139,7 +138,6 @@ async (req: Request, res: Response) => {
  
 
  authRouter.post('/registration-confirmation',
- 
  customRateLimit,
  registrationComfiValidation,
  async (req: Request, res: Response) => {
@@ -160,7 +158,6 @@ async (req: Request, res: Response) => {
 
 
  authRouter.post('/registration-email-resending',
- 
  customRateLimit,
  emailConfiResValidation,
  async (req: Request, res: Response) => {
