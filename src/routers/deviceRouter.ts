@@ -9,8 +9,9 @@ export const deviceRouter = Router({})
 deviceRouter.get ('/devices',
 async (req: Request, res: Response) => {
     const refreshToken = req.cookies.refreshToken;//{userId, deviceId}
-    const IP = req.ip
-    const URL = req.baseUrl || req.originalUrl;
+    console.log('refreshToken', refreshToken)
+    //const IP = req.ip
+    //const URL = req.baseUrl || req.originalUrl;
 
     if (!refreshToken) {
         return res.status(401).json({ message: 'Refresh token not found' });
