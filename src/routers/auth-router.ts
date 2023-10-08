@@ -67,38 +67,35 @@ async (req: Request, res: Response) => {
         const refreshToken = req.cookies.refreshToken;
     
         if (!refreshToken) {
-          return res.status(401).json({ message: 'Refresh token not found' });
+          return res.status(401).json({ message: 'no rt in cookie' });
         }
     //check token and get payload
         const isValid = await authService.validateRefreshToken(refreshToken);
     
         if (!isValid) {
-          return res.status(401).json({ message: 'Invalid refresh token' });
+          return res.status(401).json({ message: 'rt secretinvalid or rt expired' });
         }
         //check user
-        const user = await usersQueryRepository.findUserByToken(isValid.userId);
+        const user = await usersQueryRepository.findUserById(isValid.userId);
         if (!user) {
-           return res.status(401).json({ message: 'Invalid refresh token' });
+           return res.status(401).json({ message: 'no user' });
           }
 
         const device = await deviceCollection.findOne({deviceId: isValid.deviceId})
 
         if(!device){
-            return res.status(401).json({ message: 'Invalid refresh token' });
+            return res.status(401).json({ message: 'no device' });
             }
 
           const lastActiveDate = await jwtService.getLastActiveDate(refreshToken)
           if (lastActiveDate !== device.lastActiveDate) {
-            return res.status(401).json({ message: 'Invalid refresh token' });
+            return res.status(401).json({ message: 'Invalid refresh token version' });
 
           }
         
         const newTokens = await authService.refreshTokens(user.id, device.deviceId); 
         const newLastActiveDate = await jwtService.getLastActiveDate(newTokens.newRefreshToken)
-        await deviceCollection.updateOne({ deviceId: device.deviceId },{ $set: {lastActiveDate: newLastActiveDate,
-             refreshToken: newTokens.newRefreshToken,
-              },
-            })
+        await deviceCollection.updateOne({ deviceId: device.deviceId },{ $set: {lastActiveDate: newLastActiveDate}})
          
 
 
