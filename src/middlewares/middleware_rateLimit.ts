@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { rateLimitCollection } from "../db/db";
 import { rateLimitDBModel } from '../models/rateLimitModels';
 
-const maxRequests = 4;
+const maxRequests = 5;
 const interval = 10 * 1000;
 const connections: rateLimitDBModel[] = []
 
@@ -65,7 +65,7 @@ const connections: rateLimitDBModel[] = []
         date: { $gte: new Date(+date - interval) },
      });
 
-     if (count - 1 >= maxRequests) {
+     if (count + 1 >= maxRequests) {
         return res.sendStatus(429); // Отправка статуса "Слишком много запросов" (429), если лимит превышен
      }
      await rateLimitCollection.insertOne({ IP: IP, URL: URL, date: date });
