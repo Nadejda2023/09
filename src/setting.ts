@@ -61,7 +61,7 @@ app.use(jsonBodyMiddleware)
 
 
 
-app.use(RouterPaths.blogs, blogsRouter)
+app.use(RouterPaths.blogs, blogsRouter) 
 
 app.use(RouterPaths.posts, postsRouter)
 
