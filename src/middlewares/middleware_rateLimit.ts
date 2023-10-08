@@ -51,7 +51,7 @@ const connections: rateLimitDBModel[] = []
  } catch (err) {
    console.error(err);
  }
- }
+ } 
 
 
 
