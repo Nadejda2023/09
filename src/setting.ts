@@ -19,7 +19,7 @@ import { customRateLimit } from "./middlewares/middleware_rateLimit";
 export const app =  express()
 
 app.set('trust proxy', true);
-app.use(customRateLimit)
+
 
 export const settings = {
   MONGO_URI: process.env.mongoURI || "mongodb+srv://fsklever:popova12345@cluster0.su82uvr.mongodb.net/blog-dev?retryWrites=true&w=majority",
