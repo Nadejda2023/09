@@ -64,11 +64,13 @@ const connections: rateLimitDBModel[] = []
         URL: URL,
         date: { $gte: (new Date(+date - interval)) },
      });
+     console.log(count)
 
      if (count + 1 > maxRequests) {
         return res.sendStatus(429); // Отправка статуса "Слишком много запросов" (429), если лимит превышен
      }
-     await rateLimitCollection.insertOne({ IP: IP, URL: URL, date: date });
+     const check = await rateLimitCollection.insertOne({ IP: IP, URL: URL, date: date });
+     console.log(check)
      next(); // Перейти к следующему middleware или маршруту
   } catch (err) {
      console.error(err);
