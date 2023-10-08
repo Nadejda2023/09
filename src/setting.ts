@@ -49,12 +49,13 @@ export const RouterPaths:{blogs:string, posts: string, testing: string, users:st
     users: UsersModel[]
   }
   
-app.use(customRateLimit)
+//app.use(customRateLimit)
 const corsMiddleware = cors();
 app.use(corsMiddleware)
+app.use(cookieParser())
 const jsonBodyMiddleware = express.json()
 app.use(jsonBodyMiddleware)
-app.use(cookieParser())
+
 
 
 
