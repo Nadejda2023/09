@@ -25,7 +25,6 @@ async ( req: Request, res: Response) => {
         const accessToken = await jwtService.createJWT(user)
         const refreshToken = await jwtService.createJWTRT(userId, deviceId)
         const lastActiveDate = await jwtService.getLastActiveDate(refreshToken)
-        if(accessToken && refreshToken && lastActiveDate) {
         const newDevice: DeviceDbModel =  {
             _id: new ObjectId(),
             ip: req.ip,
@@ -45,7 +44,7 @@ async ( req: Request, res: Response) => {
         res.sendStatus(401) 
     }
 
-}})
+})
 
 authRouter.get('/me', 
 authMiddleware,
