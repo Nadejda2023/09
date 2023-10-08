@@ -17,6 +17,7 @@ export const authRouter = Router({})
 
 authRouter.post('/login',
 customRateLimit,
+UsersInputValidation,
 async ( req: Request, res: Response) => {
     const user = await usersService.checkCredentials(req.body.loginOrEmail, req.body.password)
     if (user) {
