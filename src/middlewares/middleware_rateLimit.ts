@@ -62,7 +62,7 @@ const connections: rateLimitDBModel[] = []
      const count = await rateLimitCollection.countDocuments({
         IP: IP,
         URL: URL,
-        date: { $eq: new Date(+date - interval) },
+        date: { $gt: new Date(+date - interval) },
      });
 
      if (count + 1 > maxRequests) {
