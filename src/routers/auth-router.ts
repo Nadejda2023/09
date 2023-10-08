@@ -16,7 +16,7 @@ import { deviceQueryRepository } from '../repositories/deviceQueryRepository'
 export const authRouter = Router({})
 
 authRouter.post('/login',
-customRateLimit,
+//customRateLimit,
 async ( req: Request, res: Response) => {
     const user = await usersService.checkCredentials(req.body.loginOrEmail, req.body.password)
     if (user) {
@@ -138,7 +138,7 @@ async (req: Request, res: Response) => {
  
 
  authRouter.post('/registration-confirmation',
- customRateLimit,
+ //customRateLimit,
  registrationComfiValidation,
  async (req: Request, res: Response) => {
      const result = await authService.confirmEmail(req.body.code)
@@ -158,7 +158,7 @@ async (req: Request, res: Response) => {
 
 
  authRouter.post('/registration-email-resending',
- customRateLimit,
+ //customRateLimit,
  emailConfiResValidation,
  async (req: Request, res: Response) => {
     const result = await authService.ressendingEmail(req.body.email)
