@@ -8,19 +8,19 @@ const connections: rateLimitDBModel[] = []
 
 // Rate limit middleware
 export async function customRateLimit(req: Request, res: Response, next: NextFunction) {
-    const ip = req.ip;
-    const url = req.baseUrl || req.originalUrl;
+    const IP = req.ip;
+    const URL = req.baseUrl || req.originalUrl;
     const date = new Date()
 
   try {
    
-    const count = connections.filter(c => c.IP === ip && c.URL === url && date >= new Date(+date - interval)).length;
+    const count = connections.filter(c => c.IP === IP && c.URL === URL && date >= new Date(+date - interval)).length;
 
     if (count + 1 > maxRequests) {
       return res.sendStatus(429)
     }
 
-    connections.push({ IP: ip, URL: url, date: date });
+    connections.push({ IP: IP, URL: URL, date: date });
 
     next();
   } catch (err) {
