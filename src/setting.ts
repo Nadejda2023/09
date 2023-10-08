@@ -12,6 +12,7 @@ import { commentRouter } from "./routers/comment_router";
 import { emailRouter } from "./routers/email-router";
 import cookieParser from "cookie-parser";
 import { deviceRouter } from "./routers/deviceRouter";
+import { customRateLimit } from "./middlewares/middleware_rateLimit";
 
 
 
@@ -48,7 +49,7 @@ export const RouterPaths:{blogs:string, posts: string, testing: string, users:st
     users: UsersModel[]
   }
   
-
+app.use(customRateLimit)
 const corsMiddleware = cors();
 app.use(corsMiddleware)
 const jsonBodyMiddleware = express.json()
