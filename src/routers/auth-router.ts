@@ -118,7 +118,7 @@ async (req: Request, res: Response) => {
  // from 07
  authRouter.post('/registration',
  UsersInputValidation, 
- //customRateLimit,
+ customRateLimit,
  async (req: Request, res: Response) => {
     
     const user = await usersService.createUser(req.body.login, req.body.email, req.body.password)
@@ -141,7 +141,7 @@ async (req: Request, res: Response) => {
 
  authRouter.post('/registration-confirmation',
  registrationComfiValidation,
- //customRateLimit,
+ customRateLimit,
  async (req: Request, res: Response) => {
      const result = await authService.confirmEmail(req.body.code)
      if(result) {
@@ -161,7 +161,7 @@ async (req: Request, res: Response) => {
 
  authRouter.post('/registration-email-resending',
  emailConfiResValidation,
- //customRateLimit,
+ customRateLimit,
  async (req: Request, res: Response) => {
     const result = await authService.ressendingEmail(req.body.email)
     if(result) {

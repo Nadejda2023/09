@@ -11,6 +11,7 @@ import { authRouter } from "./routers/auth-router";
 import { commentRouter } from "./routers/comment_router";
 import { emailRouter } from "./routers/email-router";
 import cookieParser from "cookie-parser";
+import { deviceRouter } from "./routers/deviceRouter";
 
 
 
@@ -67,4 +68,4 @@ app.use(RouterPaths.users, usersRouter)
 app.use(RouterPaths.auth, authRouter)
 app.use(RouterPaths.comments, commentRouter)
 app.use(RouterPaths.email, emailRouter)
-
+app.use(RouterPaths.device, deviceRouter)
