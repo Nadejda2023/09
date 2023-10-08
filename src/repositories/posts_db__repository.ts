@@ -24,7 +24,7 @@ import { blogsRepository } from "./blogs_db__repository"
             
         
             
-        },
+        }, 
  
     async createPost(newPost:PostViewModel): Promise<PostViewDBModel | null> {
         //return await postsCollection.findOne({newObjectId: newPost.id},{projection:{_id:0}})
